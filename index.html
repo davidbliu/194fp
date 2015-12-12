@@ -1,0 +1,57 @@
+<style type = 'text/css'>
+body{
+  margin-left: 25px;
+  margin-right:25px;
+  background-color:rgba(0,0,100,0.1);
+}
+img{
+  height:300px;
+}
+</style>
+
+<h1>Final Project</h1>
+<h2>David Liu and Simon Wu</h2>
+
+<h1>Part 1: Vertigo</h1>
+<h2>Overview</h2>
+<ul>
+  <li>To create shots with the vertigo effect we modified our distance to subject and zoom.</li>
+  <li>We started far and zoomed in and ended up close and zoomed out</li>
+  <li>this kept the subject in focus + looking static while the background changes</li>
+</ul>
+<h2>Campanile</h2>
+<h2>Bells and Whistles: animated GIFs</h2>
+
+
+<h1>Part 2: Fake Miniatures</h1>
+<h2>Overview</h2>
+<ul>
+  <li>we manually determined a focus line through the image</li>
+  <li>we altered the "depth of field" of the image by blurring around the focus plane</li>
+  <ul>
+    <li>Points further from the focus line were blurred more. This was done by applying a gaussian blur with a low sigma (0.5) iteratively and expanding the region around the focus line that gets affected by the blur.</li>
+    <li>we defined the size of the fake depth of field by how big the region around the focus line getting blurred should be (we set a threshold and expanded it each iteration</li>
+  </ul>
+</ul>
+
+<h2>Skyscrapers</h2>
+<p>From internet</p>
+<img src = './images/buildings.jpg'/>
+<img src = './results/buildings.png'/>
+
+<h2>Mall</h2>
+<p>From internet</p>
+<img src = './images/mall.jpg'/>
+<img src = './results/mall.png'/>
+
+<h2>Bridge</h2>
+<p>From internet</p>
+<img src = './images/buildings.jpg'/>
+<img src = './results/buildings.png'/>
+
+<h2>Bridge</h2>
+<p>From internet</p>
+<img src = './images/buildings.jpg'/>
+<img src = './results/buildings.png'/>
+
+<h2>Bells and Whistles: Complex DOF Regions</h2>

@@ -8,17 +8,22 @@ import skimage
 # from scipy.ndimage.filters import gaussian_filter, uniform_filter
 import sys
 
-im = plt.imread('./images/buildings.jpg')/255.
-# get 2 points
-# plt.imshow(im)
-# pts = plt.ginput(2)
-# plt.close()
-# pts = [x[::-1] for x in pts]
+IMNAME = 'mall'
+im = plt.imread('./images/' + IMNAME + '.jpg')/255.
 
-    
-for thresh in range(25, 500, 15):
+
+mallDists = range(25, 500, 3)
+mallThresh = 275
+
+buildingDists = range(50, 500, 10)
+buildingThresh = 500
+
+DISTS = mallDists
+THRESH = mallThresh
+
+for thresh in DISTS:
     # blur image
-    imblur = skimage.filters.gaussian_filter(im, sigma = 1.0)
+    imblur = skimage.filters.gaussian_filter(im, sigma = 0.5)
 
     # unblur if distance from line is < thresh
     rr, cc = np.meshgrid(np.arange(im.shape[0]), np.arange(im.shape[1]))
@@ -27,7 +32,7 @@ for thresh in range(25, 500, 15):
     vector = np.ones([2, len(rr)]).astype(int)
     vector[0] = rr
     vector[1] = cc
-    valid = abs(vector[0]-250) < thresh
+    valid = abs(vector[0]-THRESH) < thresh
     valid = np.array(valid).reshape(-1)
     rr = rr[valid]
     cc = cc[valid]
@@ -36,5 +41,6 @@ for thresh in range(25, 500, 15):
     print thresh 
     im = imblur
 
+plt.imsave('./results/'+IMNAME+'.png', im)
 plt.imshow(im)
 plt.show()
