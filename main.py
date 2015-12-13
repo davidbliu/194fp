@@ -40,7 +40,7 @@ def main(imname):
     im[...,1][im[...,1] > 1] = 1
     im = colors.hsv_to_rgb(im)
 
-    plt.imsave("./images/toy_%s.jpg" % imname, im)
+    plt.imsave("./results/toy_%s.jpg" % imname, im)
 
 if __name__ == "__main__":
     main(sys.argv[1])
