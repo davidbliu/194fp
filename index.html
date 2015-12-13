@@ -1,8 +1,14 @@
+<script src = './jquery.min.js'></script>
+<script src = './underscore-min.js'></script>
+<script src = './fnames.js'></script>
 <style type = 'text/css'>
 body{
   margin-left: 25px;
   margin-right:25px;
   background-color:rgba(0,0,100,0.1);
+}
+.gif-img{
+  height:100px;
 }
 img{
   height:300px;
@@ -19,8 +25,20 @@ img{
   <li>We started far and zoomed in and ended up close and zoomed out</li>
   <li>this kept the subject in focus + looking static while the background changes</li>
 </ul>
-<h2>Campanile</h2>
+<h2>Cone</h2>
+<div id = 'cone-pics'></div>
+<h2>Simon</h2>
+<div id = 'simon-pics'></div>
 <h2>Bells and Whistles: animated GIFs</h2>
+<img src = './results/coneVertigo.gif'/>
+<img src = './results/simonVertigo.gif'/>
+<h2>Bells and Whistles: Moving Subject and Camera</h2>
+<p>we first tried moving the subject instead of the camera. while simon moved further from the camera the camera only zoomed to keep him in the same place. The effect was similar to the vertigo effect, with the background changing</p>
+<div id = 'still-pics'></div>
+<img src = './results/stillVertigo.gif'/>
+<p>We also tried filming two subjects: simon and the cone. The camera moved back, the cone stayed in place, and simon moved away from the camera.</p> 
+<div id = 'both-pics'></div>
+<img src = './results/bothVertigo.gif'/>
 
 
 <h1>Part 2: Fake Miniatures</h1>
@@ -55,3 +73,16 @@ img{
 <img src = './results/buildings.png'/>
 
 <h2>Bells and Whistles: Complex DOF Regions</h2>
+
+<script type = 'text/javascript'>
+gifs = [[simon, '#simon-pics'], [both, '#both-pics'], [coneFountain, '#cone-pics'], [still, '#still-pics']];
+_.each(gifs, function(gif){
+  _.each(gif[0], function(x){
+    img = $('<img></img>');
+    $(img).addClass('gif-img');
+    $(img).attr('src', x);
+    $(gif[1]).append(img);
+  });
+});
+
+</script>
