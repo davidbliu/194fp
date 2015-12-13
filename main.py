@@ -1,40 +1,46 @@
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import math
 import numpy as np
-import skimage.transform as sktr
-from scipy import ndimage
-import skimage
-# from scipy.ndimage.filters import gaussian_filter, uniform_filter
 import sys
 
-im = plt.imread('./images/buildings.jpg')/255.
-# get 2 points
-# plt.imshow(im)
-# pts = plt.ginput(2)
-# plt.close()
-# pts = [x[::-1] for x in pts]
+from skimage import filters
+from matplotlib import pyplot as plt
+from matplotlib import colors
 
-    
-for thresh in range(25, 500, 15):
-    # blur image
-    imblur = skimage.filters.gaussian_filter(im, sigma = 1.0)
+def main(imname):
+    im = plt.imread("./images/%s.jpg" % imname)/255.
+    plt.imshow(im)
+    print("Select DOF top and bottom")
+    pts = np.array(plt.ginput(2))
+    plt.close()
+    pts = pts[:,1].astype(int)
 
-    # unblur if distance from line is < thresh
-    rr, cc = np.meshgrid(np.arange(im.shape[0]), np.arange(im.shape[1]))
-    rr = rr.flatten().astype(int)
-    cc = cc.flatten().astype(int)
-    vector = np.ones([2, len(rr)]).astype(int)
-    vector[0] = rr
-    vector[1] = cc
-    valid = abs(vector[0]-250) < thresh
-    valid = np.array(valid).reshape(-1)
-    rr = rr[valid]
-    cc = cc[valid]
-    vector = vector[:, valid]
-    imblur[rr, cc] = im[vector[0], vector[1]]
-    print thresh 
-    im = imblur
+    mid = (pts[0]+pts[1])/2
+    tail = abs(pts[0]-pts[1])/2
 
-plt.imshow(im)
-plt.show()
+    for thresh in range(tail, max(mid, im.shape[0]-mid), 5):
+        # blur image
+        imblur = filters.gaussian_filter(im, sigma=1)
+
+        # unblur if distance from line is < thresh
+        rr, cc = np.meshgrid(np.arange(im.shape[0]), np.arange(im.shape[1]))
+        rr = rr.flatten()
+        cc = cc.flatten()
+        vector = np.ones([2, len(rr)]).astype(int)
+        vector[0] = rr
+        vector[1] = cc
+        dof = abs(vector[0]-mid) < thresh
+        dof = np.array(dof).reshape(-1)
+        rr = rr[dof]
+        cc = cc[dof]
+        vector = vector[:, dof]
+        imblur[rr, cc] = im[vector[0], vector[1]]
+        im = imblur
+
+    im = colors.rgb_to_hsv(im)
+    im[...,1] *= 1.7
+    im[...,1][im[...,1] > 1] = 1
+    im = colors.hsv_to_rgb(im)
+
+    plt.imsave("./images/toy_%s.jpg" % imname, im)
+
+if __name__ == "__main__":
+    main(sys.argv[1])
