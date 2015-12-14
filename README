@@ -1,9 +1,13 @@
 David Liu and Simon Wu
 
-All source images are in the ./images/ directory and all result images are in
-the ./results/ directory.
+All source images are in the ./images/ directory and all result images or gifs
+are in the ./results/ directory.
 
 main.py implements the fake miniature project. Run main with the input image
 name as the first argument, and the input mask name as the optional second
 argument (Don't include directory name or file extension).
 e.g. "python main.py north" for ./images/north.jpg
+
+For the stop-motion bells and whistles, pass in each frame as an argument
+(lol). At least 3 frames are required.
+e.g. "python main.py 1 2 3 4 5 6"
