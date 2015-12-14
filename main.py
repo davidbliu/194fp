@@ -5,7 +5,7 @@ from skimage import filters
 from matplotlib import pyplot as plt
 from matplotlib import colors
 
-def main(imname):
+def main(imname, maskname=None):
     im = plt.imread("./images/%s.jpg" % imname)/255.
     plt.imshow(im)
     print("Select DOF top and bottom")
@@ -15,6 +15,10 @@ def main(imname):
 
     mid = (pts[0]+pts[1])/2
     tail = abs(pts[0]-pts[1])/2
+
+    if maskname:
+        mask = plt.imread("./images/%s.jpg" % maskname)/255.
+        over = im*mask
 
     for thresh in range(tail, max(mid, im.shape[0]-mid), 5):
         # blur image
@@ -35,6 +39,10 @@ def main(imname):
         imblur[rr, cc] = im[vector[0], vector[1]]
         im = imblur
 
+    if maskname:
+        im *= (1 - mask)
+        im += over
+
     im = colors.rgb_to_hsv(im)
     im[...,1] *= 1.7
     im[...,1][im[...,1] > 1] = 1
@@ -43,4 +51,9 @@ def main(imname):
     plt.imsave("./results/toy_%s.jpg" % imname, im)
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    if len(sys.argv) == 3:
+        main(sys.argv[1], sys.argv[2])
+    elif len(sys.argv) == 2:
+        main(sys.argv[1])
+    else:
+        print README

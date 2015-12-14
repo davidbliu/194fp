@@ -1,0 +1,9 @@
+David Liu and Simon Wu
+
+All source images are in the ./images/ directory and all result images are in
+the ./results/ directory.
+
+main.py implements the fake miniature project. Run main with the input image
+name as the first argument, and the input mask name as the optional second
+argument (Don't include directory name or file extension).
+e.g. "python main.py north" for ./images/north.jpg
